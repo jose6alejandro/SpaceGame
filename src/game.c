@@ -1,88 +1,100 @@
 #include "../include/game.h"
 
-/*
-    Integrar componentes del juego
-*/
-int gamePlay(){
-
-    
-    if (!(WindowCreate(900, 800, 32, "SpaceGame")))
+int gameStart(){
+   
+    if (!(gameWindow(900, 800, 32, "SpaceGame")))
         return 1;
-
-    assetsLoad(edit);
-        
-    gameLoop();
     
-    gameClose();
+    sceneryLoad(); 
+
+    playerLoad();
+    
+    gameRun();
 
     return 0;
 }
 
-/*
-    Loop para ejecutar el juego 
-*/
-void gameLoop(){
+void gameRun(){
 
-    sfEvent event;
+    while (sfRenderWindow_isOpen(game.window)){
 
-    while (sfRenderWindow_isOpen(win.window)){
+        gameEvents(game.event);
 
-        gameEvents(event);
-
-        WindowDraw(win.window);
+        gameDraw(game.window);
     }
+
+    sfSprite_destroy(player.sprite);
+    sfTexture_destroy(player.texture);
+    sfSprite_destroy(scenery.sprite);
+    sfTexture_destroy(scenery.texture);
+    sfRenderWindow_destroy(game.window);     
 }
 
-/*
-    Eventos del juego
-*/
-void gameEvents(sfEvent event){
 
-    while(sfRenderWindow_pollEvent(win.window, &event)){
-        if (event.type == sfEvtClosed){
-               sfRenderWindow_close(win.window);
-        }   
-        if (event.type == sfEvtKeyPressed){
+void gameEvents(){
+
+    while(sfRenderWindow_pollEvent(game.window, &game.event)){
+        
+        if (game.event.type == sfEvtClosed){
+               sfRenderWindow_close(game.window);
+        }
+
+        if (game.event.type == sfEvtKeyPressed){
 
             if (sfKeyboard_isKeyPressed(sfKeyEscape)){
-                   sfRenderWindow_close(win.window);
+                   sfRenderWindow_close(game.window);
             }
             if (sfKeyboard_isKeyPressed(sfKeyUp)){
-                  
-                sfVector2f vectorPositionOn = {sfSprite_getPosition(resource.sprite).x, 
-                                                   sfSprite_getPosition(resource.sprite).y -3};
-                sfSprite_setPosition(resource.sprite, (vectorPositionOn));
+
+                player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
+                player.vectorPosition.y = sfSprite_getPosition(player.sprite).y - 3;
+                sfSprite_setPosition(player.sprite, (player.vectorPosition));
             }
             if (sfKeyboard_isKeyPressed(sfKeyDown)){
                   
-                sfVector2f vectorPositionOn = {sfSprite_getPosition(resource.sprite).x, 
-                                                   sfSprite_getPosition(resource.sprite).y +3};
-                sfSprite_setPosition(resource.sprite, (vectorPositionOn));
+                player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
+                player.vectorPosition.y = sfSprite_getPosition(player.sprite).y + 3;
+                sfSprite_setPosition(player.sprite, (player.vectorPosition));
             }
             if (sfKeyboard_isKeyPressed(sfKeyLeft)){
                   
-                sfVector2f vectorPositionOn = {sfSprite_getPosition(resource.sprite).x - 3, 
-                                                   sfSprite_getPosition(resource.sprite).y};
-                sfSprite_setPosition(resource.sprite, (vectorPositionOn));
+                player.vectorPosition.x = sfSprite_getPosition(player.sprite).x - 3;
+                player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
+                sfSprite_setPosition(player.sprite, (player.vectorPosition));
             }
             if (sfKeyboard_isKeyPressed(sfKeyRight)){
                   
-                sfVector2f vectorPositionOn = {sfSprite_getPosition(resource.sprite).x + 3, 
-                                                   sfSprite_getPosition(resource.sprite).y};
-                sfSprite_setPosition(resource.sprite, (vectorPositionOn));
+                player.vectorPosition.x = sfSprite_getPosition(player.sprite).x + 3; 
+                player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
+                sfSprite_setPosition(player.sprite, (player.vectorPosition));
             }
         }
     }
 }
+void gameDraw(){
 
-/*
-    Cerrar todos los objetos y componentes del juego
-*/
-void gameClose(){
+    sfRenderWindow_clear(game.window, sfColor_fromRGB(57, 161, 92));
+    /**/
+        sfRenderWindow_drawSprite(game.window, scenery.sprite, NULL); 
+        sfRenderWindow_drawSprite(game.window, player.sprite, NULL);
+    /**/
+    sfRenderWindow_display(game.window);    
+}
 
-    sfSprite_destroy(resource.sprite);
-    sfTexture_destroy(resource.texture);
-    sfSprite_destroy(resource.sprite2);
-    sfTexture_destroy(resource.texture2);
-    sfRenderWindow_destroy(win.window); 
+int gameWindow(unsigned int x, unsigned int y, 
+                 unsigned int pixel, char* title){
+
+    game.x = x;
+    game.y = y;
+    game.pixel = pixel;
+    game.title = title;
+
+    sfVideoMode mode = {game.x, game.y, game.pixel};
+    
+    game.window = sfRenderWindow_create(mode, game.title, sfResize | sfClose, NULL);
+
+     if (game.window)
+        return 1;
+
+    return 0;
 }

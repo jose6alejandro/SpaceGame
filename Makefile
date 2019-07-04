@@ -4,19 +4,21 @@
 
 CC = gcc
 LIB = -lcsfml-window -lcsfml-system -lcsfml-graphics -lcsfml-audio
-INC= -I/include
+INC = -I/include
+EXE = ./space.exe
 
-space.exe: obj/main.o obj/game.o obj/window.o obj/assets.o
+$(EXE): obj/main.o obj/game.o obj/player.o obj/scenery.o
 	$(CC) -o $@ $^ $(LIB)
 
 obj/main.o: main/main.c
 	$(CC) $(LIB) $(INC) -c -o $@ $^
 obj/game.o: src/game.c 
 	$(CC) $(LIB) $(INC) -c -o $@ $^
-obj/window.o: src/window.c 
+obj/player.o: src/player.c 
 	$(CC) $(LIB) $(INC) -c -o $@ $^
-obj/assets.o: src/assets.c 
+obj/scenery.o: src/scenery.c 
 	$(CC) $(LIB) $(INC) -c -o $@ $^
-
 clear:
 	rm obj/*.o *.exe
+run:
+	@$(EXE)
