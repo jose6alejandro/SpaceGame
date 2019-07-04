@@ -35,39 +35,42 @@ void gameEvents(){
 
     while(sfRenderWindow_pollEvent(game.window, &game.event)){
         
-        if (game.event.type == sfEvtClosed){
+        switch (game.event.type){
+
+            case sfEvtClosed:
                sfRenderWindow_close(game.window);
-        }
+            
+            case sfEvtKeyPressed:
 
-        if (game.event.type == sfEvtKeyPressed){
+                switch(game.event.key.code){
+                    
+                    case sfKeyEscape:
+                        sfRenderWindow_close(game.window);
+                    
+                    case sfKeyUp:
+                        player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
+                        player.vectorPosition.y = sfSprite_getPosition(player.sprite).y - 3;
+                        sfSprite_setPosition(player.sprite, (player.vectorPosition));
+                        break;
+                    
+                    case sfKeyDown:
+                        player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
+                        player.vectorPosition.y = sfSprite_getPosition(player.sprite).y + 3;
+                        sfSprite_setPosition(player.sprite, (player.vectorPosition));
+                        break;                                                    
+                    
+                    case sfKeyLeft:
+                        player.vectorPosition.x = sfSprite_getPosition(player.sprite).x - 3;
+                        player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
+                        sfSprite_setPosition(player.sprite, (player.vectorPosition));
+                        break; 
 
-            if (sfKeyboard_isKeyPressed(sfKeyEscape)){
-                   sfRenderWindow_close(game.window);
-            }
-            if (sfKeyboard_isKeyPressed(sfKeyUp)){
-
-                player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
-                player.vectorPosition.y = sfSprite_getPosition(player.sprite).y - 3;
-                sfSprite_setPosition(player.sprite, (player.vectorPosition));
-            }
-            if (sfKeyboard_isKeyPressed(sfKeyDown)){
-                  
-                player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
-                player.vectorPosition.y = sfSprite_getPosition(player.sprite).y + 3;
-                sfSprite_setPosition(player.sprite, (player.vectorPosition));
-            }
-            if (sfKeyboard_isKeyPressed(sfKeyLeft)){
-                  
-                player.vectorPosition.x = sfSprite_getPosition(player.sprite).x - 3;
-                player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
-                sfSprite_setPosition(player.sprite, (player.vectorPosition));
-            }
-            if (sfKeyboard_isKeyPressed(sfKeyRight)){
-                  
-                player.vectorPosition.x = sfSprite_getPosition(player.sprite).x + 3; 
-                player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
-                sfSprite_setPosition(player.sprite, (player.vectorPosition));
-            }
+                    case sfKeyRight:
+                        player.vectorPosition.x = sfSprite_getPosition(player.sprite).x + 3; 
+                        player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
+                        sfSprite_setPosition(player.sprite, (player.vectorPosition));
+                        break;
+                }
         }
     }
 }
