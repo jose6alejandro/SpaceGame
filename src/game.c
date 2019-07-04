@@ -5,9 +5,13 @@ int gameStart(){
     if (!(gameWindow(900, 800, 32, "SpaceGame")))
         return 1;
     
-    sceneryLoad(); 
+    sceneryLoad();
+
+    enemyLoad();
 
     playerLoad();
+
+    textGameOver();
     
     gameRun();
 
@@ -19,14 +23,21 @@ void gameRun(){
     while (sfRenderWindow_isOpen(game.window)){
 
         gameEvents(game.event);
-
         gameDraw(game.window);
     }
 
     sfSprite_destroy(player.sprite);
     sfTexture_destroy(player.texture);
+
+    sfSprite_destroy(enemy.sprite);
+    sfTexture_destroy(enemy.texture);
+
     sfSprite_destroy(scenery.sprite);
     sfTexture_destroy(scenery.texture);
+
+    sfText_destroy(textFont.text);
+    sfFont_destroy(textFont.font);
+
     sfRenderWindow_destroy(game.window);     
 }
 
@@ -78,10 +89,39 @@ void gameDraw(){
 
     sfRenderWindow_clear(game.window, sfColor_fromRGB(57, 161, 92));
     /**/
+
         sfRenderWindow_drawSprite(game.window, scenery.sprite, NULL); 
+        sfRenderWindow_drawSprite(game.window, enemy.sprite, NULL); 
         sfRenderWindow_drawSprite(game.window, player.sprite, NULL);
+
+        gameGlobalBounds();
+        
     /**/
     sfRenderWindow_display(game.window);    
+}
+
+void gameGlobalBounds(){
+    
+    sfFloatRect playerRect = sfSprite_getGlobalBounds(player.sprite);
+    sfFloatRect enemyRect = sfSprite_getGlobalBounds(enemy.sprite);
+    
+    if(sfFloatRect_intersects(&playerRect, &enemyRect, NULL)){
+
+        sfSprite_setColor(player.sprite, sfColor_fromRGBA(250, 250, 250, 70));
+
+            textFont.vectorPosition.x = sfRenderWindow_getSize(game.window).x / 2 - textSize * 100 / 50;
+            textFont.vectorPosition.y = sfRenderWindow_getSize(game.window).y / 2 - textSize * 100 / 200;
+            sfText_setPosition(textFont.text, textFont.vectorPosition);
+
+        sfRenderWindow_drawText(game.window, textFont.text, NULL);
+        
+    }else{
+         sfSprite_setRotation(enemy.sprite, sfSprite_getRotation(enemy.sprite) + 0.5);
+         enemy.vectorPosition.x = sfSprite_getPosition(enemy.sprite).x; 
+         enemy.vectorPosition.y = sfSprite_getPosition(enemy.sprite).y + 0.3;
+         sfSprite_setPosition(enemy.sprite, (enemy.vectorPosition));
+         sfSprite_setColor(player.sprite, sfColor_fromRGBA(250, 250, 250, 250));
+    }
 }
 
 int gameWindow(unsigned int x, unsigned int y, 
@@ -101,3 +141,5 @@ int gameWindow(unsigned int x, unsigned int y,
 
     return 0;
 }
+
+

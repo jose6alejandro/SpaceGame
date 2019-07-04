@@ -1,20 +1,24 @@
 #include "player.h"
+#include "enemy.h"
 #include "scenery.h"
+#include "text.h"
 
 typedef struct{
 
     sfRenderWindow* window;
     sfEvent event;
-    unsigned int x, y, pixel;
-    char* title;   
-
+    char* title; 
+    unsigned int x,
+    			 y, 
+    			 pixel;
 }Game; 
 
 Game game;
 
-int gameWindow(unsigned int, unsigned int, 
+int  gameWindow(unsigned int, unsigned int, 
 				 unsigned int, char*);
-int gameStart();
+int  gameStart();
 void gameRun();
 void gameEvents();
 void gameDraw();
+void gameGlobalBounds();

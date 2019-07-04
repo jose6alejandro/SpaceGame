@@ -7,7 +7,7 @@ LIB = -lcsfml-window -lcsfml-system -lcsfml-graphics -lcsfml-audio
 INC = -I/include
 EXE = ./space.exe
 
-$(EXE): obj/main.o obj/game.o obj/player.o obj/scenery.o
+$(EXE): obj/main.o obj/game.o obj/player.o obj/enemy.o obj/scenery.o obj/text.o
 	$(CC) -o $@ $^ $(LIB)
 
 obj/main.o: main/main.c
@@ -16,8 +16,12 @@ obj/game.o: src/game.c
 	$(CC) $(LIB) $(INC) -c -o $@ $^
 obj/player.o: src/player.c 
 	$(CC) $(LIB) $(INC) -c -o $@ $^
+obj/enemy.o: src/enemy.c 
+	$(CC) $(LIB) $(INC) -c -o $@ $^	
 obj/scenery.o: src/scenery.c 
 	$(CC) $(LIB) $(INC) -c -o $@ $^
+obj/text.o: src/text.c 
+	$(CC) $(LIB) $(INC) -c -o $@ $^	
 clear:
 	rm obj/*.o *.exe
 run:
