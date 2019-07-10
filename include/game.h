@@ -2,6 +2,7 @@
 #include "enemy.h"
 #include "scenery.h"
 #include "text.h"
+#include "time.h"
 
 typedef struct{
 

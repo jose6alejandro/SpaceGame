@@ -4,6 +4,8 @@ int gameStart(){
    
     if (!(gameWindow(900, 800, 32, "SpaceGame")))
         return 1;
+
+    timeLoad();
     
     sceneryLoad();
 
@@ -13,6 +15,8 @@ int gameStart(){
 
     textGameOver();
     
+    textTime(game.window);
+      
     gameRun();
 
     return 0;
@@ -22,6 +26,10 @@ void gameRun(){
 
     while (sfRenderWindow_isOpen(game.window)){
 
+        timeUp.time = sfClock_getElapsedTime(timeUp.clock);
+        sprintf(timeString,"%i",(int)sfTime_asSeconds(timeUp.time));
+        sfText_setString(textFont.text2, timeString);
+        
         gameEvents(game.event);
         gameDraw(game.window);
     }
@@ -37,6 +45,11 @@ void gameRun(){
 
     sfText_destroy(textFont.text);
     sfFont_destroy(textFont.font);
+
+    sfText_destroy(textFont.text2);
+    sfFont_destroy(textFont.font2);
+
+    sfClock_destroy(timeUp.clock);
 
     sfRenderWindow_destroy(game.window);     
 }
@@ -59,28 +72,33 @@ void gameEvents(){
                         sfRenderWindow_close(game.window);
                     
                     case sfKeyUp:
+                    case sfKeyW:
                         player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
                         player.vectorPosition.y = sfSprite_getPosition(player.sprite).y - 3;
                         sfSprite_setPosition(player.sprite, (player.vectorPosition));
                         break;
                     
                     case sfKeyDown:
+                    case sfKeyS:
                         player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
                         player.vectorPosition.y = sfSprite_getPosition(player.sprite).y + 3;
                         sfSprite_setPosition(player.sprite, (player.vectorPosition));
                         break;                                                    
                     
                     case sfKeyLeft:
+                    case sfKeyA:
                         player.vectorPosition.x = sfSprite_getPosition(player.sprite).x - 3;
                         player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
                         sfSprite_setPosition(player.sprite, (player.vectorPosition));
                         break; 
 
                     case sfKeyRight:
+                    case sfKeyD:
                         player.vectorPosition.x = sfSprite_getPosition(player.sprite).x + 3; 
                         player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
                         sfSprite_setPosition(player.sprite, (player.vectorPosition));
                         break;
+
                 }
         }
     }
@@ -93,6 +111,13 @@ void gameDraw(){
         sfRenderWindow_drawSprite(game.window, scenery.sprite, NULL); 
         sfRenderWindow_drawSprite(game.window, enemy.sprite, NULL); 
         sfRenderWindow_drawSprite(game.window, player.sprite, NULL);
+        sfRenderWindow_drawText(game.window, textFont.text2, NULL);
+        
+        /*if((int)sfTime_asSeconds(timeUp.time) == 10){
+            //sfRenderWindow_drawText(game.window, textFont.text, NULL);
+            
+            //timeUp.time = sfClock_restart(timeUp.clock);
+        }*/
 
         gameGlobalBounds();
         
@@ -114,7 +139,10 @@ void gameGlobalBounds(){
             sfText_setPosition(textFont.text, textFont.vectorPosition);
 
         sfRenderWindow_drawText(game.window, textFont.text, NULL);
+         
+        //sfSleep(sfMilliseconds(800));
         
+                
     }else{
          sfSprite_setRotation(enemy.sprite, sfSprite_getRotation(enemy.sprite) + 0.5);
          enemy.vectorPosition.x = sfSprite_getPosition(enemy.sprite).x; 
@@ -122,6 +150,7 @@ void gameGlobalBounds(){
          sfSprite_setPosition(enemy.sprite, (enemy.vectorPosition));
          sfSprite_setColor(player.sprite, sfColor_fromRGBA(250, 250, 250, 250));
     }
+    
 }
 
 int gameWindow(unsigned int x, unsigned int y, 
