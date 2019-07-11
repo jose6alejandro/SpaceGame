@@ -1,8 +1,8 @@
-#include "../include/game.h"
+#include "../include/menu.h"
 
 int main(){
-
-    gameStart();
-
+ 
+	menuExecute();
+	
     return 0;
 }

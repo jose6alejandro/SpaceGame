@@ -2,20 +2,22 @@
 
 int gameStart(){
    
-    if (!(gameWindow(900, 800, 32, "SpaceGame")))
+    if (!(windowLoad(900, 800, 32, "SpaceGame")))
         return 1;
-
+    
+    textFont.font = sfFont_createFromFile("assets/arial.ttf");
+    
     timeLoad();
     
-    sceneryLoad();
+    sceneryLoad(1);
 
     enemyLoad();
 
     playerLoad();
 
-    textGameOver();
+    textGameOver(win.window);
     
-    textTime(game.window);
+    textTime(win.window);
       
     gameRun();
 
@@ -24,14 +26,14 @@ int gameStart(){
 
 void gameRun(){
 
-    while (sfRenderWindow_isOpen(game.window)){
+    while (sfRenderWindow_isOpen(win.window)){
 
         timeUp.time = sfClock_getElapsedTime(timeUp.clock);
         sprintf(timeString,"%i",(int)sfTime_asSeconds(timeUp.time));
         sfText_setString(textFont.text2, timeString);
         
-        gameEvents(game.event);
-        gameDraw(game.window);
+        gameEvents(win.event);
+        gameDraw(win.window);
     }
 
     sfSprite_destroy(player.sprite);
@@ -42,35 +44,35 @@ void gameRun(){
 
     sfSprite_destroy(scenery.sprite);
     sfTexture_destroy(scenery.texture);
-
-    sfText_destroy(textFont.text);
+    
     sfFont_destroy(textFont.font);
-
+    sfText_destroy(textFont.text);
     sfText_destroy(textFont.text2);
-    sfFont_destroy(textFont.font2);
+
 
     sfClock_destroy(timeUp.clock);
 
-    sfRenderWindow_destroy(game.window);     
+    sfRenderWindow_destroy(win.window);     
 }
 
 
 void gameEvents(){
 
-    while(sfRenderWindow_pollEvent(game.window, &game.event)){
+    while(sfRenderWindow_pollEvent(win.window, &win.event)){
         
-        switch (game.event.type){
+        switch (win.event.type){
 
             case sfEvtClosed:
-               sfRenderWindow_close(game.window);
+               sfRenderWindow_close(win.window);
             
             case sfEvtKeyPressed:
 
-                switch(game.event.key.code){
+                switch(win.event.key.code){
                     
                     case sfKeyEscape:
-                        sfRenderWindow_close(game.window);
-                    
+                        sfRenderWindow_close(win.window);
+                        break;
+
                     case sfKeyUp:
                     case sfKeyW:
                         player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
@@ -99,22 +101,25 @@ void gameEvents(){
                         sfSprite_setPosition(player.sprite, (player.vectorPosition));
                         break;
 
+                    default:
+                        //Nota: perfeccionar el movimiento
+                        break;
                 }
         }
     }
 }
 void gameDraw(){
 
-    sfRenderWindow_clear(game.window, sfColor_fromRGB(57, 161, 92));
+    sfRenderWindow_clear(win.window, sfColor_fromRGB(57, 161, 92));
     /**/
 
-        sfRenderWindow_drawSprite(game.window, scenery.sprite, NULL); 
-        sfRenderWindow_drawSprite(game.window, enemy.sprite, NULL); 
-        sfRenderWindow_drawSprite(game.window, player.sprite, NULL);
-        sfRenderWindow_drawText(game.window, textFont.text2, NULL);
+        sfRenderWindow_drawSprite(win.window, scenery.sprite, NULL); 
+        sfRenderWindow_drawSprite(win.window, enemy.sprite, NULL); 
+        sfRenderWindow_drawSprite(win.window, player.sprite, NULL);
+        sfRenderWindow_drawText(win.window, textFont.text2, NULL);
         
         /*if((int)sfTime_asSeconds(timeUp.time) == 10){
-            //sfRenderWindow_drawText(game.window, textFont.text, NULL);
+            //sfRenderWindow_drawText(win.window, textFont.text, NULL);
             
             //timeUp.time = sfClock_restart(timeUp.clock);
         }*/
@@ -122,7 +127,7 @@ void gameDraw(){
         gameGlobalBounds();
         
     /**/
-    sfRenderWindow_display(game.window);    
+    sfRenderWindow_display(win.window);    
 }
 
 void gameGlobalBounds(){
@@ -134,11 +139,7 @@ void gameGlobalBounds(){
 
         sfSprite_setColor(player.sprite, sfColor_fromRGBA(250, 250, 250, 70));
 
-            textFont.vectorPosition.x = sfRenderWindow_getSize(game.window).x / 2 - textSize * 100 / 50;
-            textFont.vectorPosition.y = sfRenderWindow_getSize(game.window).y / 2 - textSize * 100 / 200;
-            sfText_setPosition(textFont.text, textFont.vectorPosition);
-
-        sfRenderWindow_drawText(game.window, textFont.text, NULL);
+        sfRenderWindow_drawText(win.window, textFont.text, NULL);
          
         //sfSleep(sfMilliseconds(800));
         
@@ -152,23 +153,3 @@ void gameGlobalBounds(){
     }
     
 }
-
-int gameWindow(unsigned int x, unsigned int y, 
-                 unsigned int pixel, char* title){
-
-    game.x = x;
-    game.y = y;
-    game.pixel = pixel;
-    game.title = title;
-
-    sfVideoMode mode = {game.x, game.y, game.pixel};
-    
-    game.window = sfRenderWindow_create(mode, game.title, sfResize | sfClose, NULL);
-
-     if (game.window)
-        return 1;
-
-    return 0;
-}
-
-

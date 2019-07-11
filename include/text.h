@@ -6,10 +6,9 @@
 typedef struct{
 
     sfFont* font;
-    sfFont* font2;
-
     sfText* text;
     sfText* text2;
+    sfText* text3;
     
     sfVector2f 	vectorPosition,
                 vectorScale,
@@ -19,5 +18,6 @@ typedef struct{
 Text textFont;
 char timeString [3];
 
-void textGameOver();
+void textGameOver(sfRenderWindow*);
 void textTime(sfRenderWindow*);
+void textMenu(sfRenderWindow*);

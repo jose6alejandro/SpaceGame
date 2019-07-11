@@ -13,4 +13,4 @@ typedef struct{
 
 Scenery scenery;
 
-void sceneryLoad();
+void sceneryLoad(int);
