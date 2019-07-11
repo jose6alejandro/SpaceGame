@@ -4,6 +4,7 @@
 #include "text.h"
 #include "time.h"
 #include "window.h"
+#include "music.h"
 
 int  gameStart();
 void gameRun();

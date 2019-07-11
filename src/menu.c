@@ -11,6 +11,10 @@ int menuExecute(){
     
     sceneryLoad(0);
 
+    musicMenu();
+    sfMusic_setLoop(music.soundLong, sfTrue);
+    sfMusic_play(music.soundLong);
+    
     textMenu(win.window);
 
     while (sfRenderWindow_isOpen(win.window)){
@@ -31,12 +35,14 @@ int menuExecute(){
                                     
                             break;
                         case sfKeyUp:
+                            sfSound_play(music.soundShort);
                             sfText_setColor(textFont.text, sfColor_fromRGBA(252,246,53,125));
                             sfText_setColor(textFont.text2, sfColor_fromRGBA(224,224,219,200));
                             flag = 0;
                             break;
                                 
                         case sfKeyDown:
+                            sfSound_play(music.soundShort2);
                             sfText_setColor(textFont.text2, sfColor_fromRGBA(252,246,53,125));
                             sfText_setColor(textFont.text, sfColor_fromRGBA(224,224,219,200));
                             flag = 1;
@@ -50,8 +56,10 @@ int menuExecute(){
                             }
                             else{
                                 sfRenderWindow_close(win.window);
+                                //sfMusic_stop(music.soundLong);
+                                musicCleanMenu();
                                 return gameStart();
-                            }   
+                            }
                             break;   
                     }
             }
@@ -64,8 +72,12 @@ int menuExecute(){
         sfText_destroy(textFont.text);
         sfText_destroy(textFont.text2);
         sfText_destroy(textFont.text3);
+
         sfSprite_destroy(scenery.sprite);
         sfTexture_destroy(scenery.texture);
+
+        musicCleanMenu();
+
         sfRenderWindow_destroy(win.window);
         
     return 0;
