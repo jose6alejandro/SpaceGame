@@ -1,7 +1,9 @@
+#ifndef _TEXT_H
+#define _TEXT_H
+
 #include <SFML/Audio.h>
 #include <SFML/Graphics.h>
-
-#define textSize 100
+#include "definition.h"
 
 typedef struct{
 
@@ -10,7 +12,7 @@ typedef struct{
     sfText* text2;
     sfText* text3;
     
-    sfVector2f 	vectorPosition,
+    sfVector2f  vectorPosition,
                 vectorScale,
                 vectorOrigin;
 }Text; 
@@ -18,6 +20,6 @@ typedef struct{
 Text textFont;
 char timeString [3];
 
-void textGameOver(sfRenderWindow*);
-void textTime(sfRenderWindow*);
-void textMenu(sfRenderWindow*);
+void textMenuLoad(sfRenderWindow*);
+void textLoad(sfRenderWindow*, int);
+#endif //_TEXT_H

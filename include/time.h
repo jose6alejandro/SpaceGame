@@ -1,3 +1,7 @@
+#ifndef _TIMEUP_H
+#define _TIMEUP_H
+
+
 #include <SFML/Audio.h>
 #include <SFML/Graphics.h>
 
@@ -12,3 +16,5 @@ typedef struct{
 Time timeUp;
 
 void timeLoad();
+
+#endif //_TIMEUP_H

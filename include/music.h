@@ -1,3 +1,6 @@
+#ifndef _MUSIC_H
+#define _MUSIC_H
+
 #include <SFML/Audio.h>
 #include <SFML/Graphics.h>
 
@@ -13,5 +16,7 @@ typedef struct{
 
 Music music;
 
-void musicMenu();
-void musicCleanMenu();
+void musicLoad(int);
+void musicClean(int);
+
+#endif //_MUSIC_H

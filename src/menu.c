@@ -2,20 +2,22 @@
 
 int menuExecute(){
 
-        if (!(windowLoad(900, 800, 32, "SpaceGame")))
+    if (!(windowLoad(windowConfig,windowName)))
         return 1;
 
     unsigned int flag = 0;
 
-    textFont.font = sfFont_createFromFile("assets/arial.ttf");
-    
     sceneryLoad(0);
 
-    musicMenu();
+    musicLoad(0);
+    
     sfMusic_setLoop(music.soundLong, sfTrue);
     sfMusic_play(music.soundLong);
+
     
-    textMenu(win.window);
+    textMenuLoad(win.window); 
+
+    sfRenderWindow_setFramerateLimit(win.window,FramerateLimit);
 
     while (sfRenderWindow_isOpen(win.window)){
 
@@ -36,15 +38,15 @@ int menuExecute(){
                             break;
                         case sfKeyUp:
                             sfSound_play(music.soundShort);
-                            sfText_setColor(textFont.text, sfColor_fromRGBA(252,246,53,125));
-                            sfText_setColor(textFont.text2, sfColor_fromRGBA(224,224,219,200));
+                            sfText_setColor(textFont.text, colorPrimary);
+                            sfText_setColor(textFont.text2, colorSecondary);
                             flag = 0;
                             break;
                                 
                         case sfKeyDown:
                             sfSound_play(music.soundShort2);
-                            sfText_setColor(textFont.text2, sfColor_fromRGBA(252,246,53,125));
-                            sfText_setColor(textFont.text, sfColor_fromRGBA(224,224,219,200));
+                            sfText_setColor(textFont.text2, colorPrimary);
+                            sfText_setColor(textFont.text, colorSecondary);
                             flag = 1;
                             break; 
 
@@ -57,7 +59,7 @@ int menuExecute(){
                             else{
                                 sfRenderWindow_close(win.window);
                                 //sfMusic_stop(music.soundLong);
-                                musicCleanMenu();
+                                musicClean(0);
                                 return gameStart();
                             }
                             break;   
@@ -67,24 +69,21 @@ int menuExecute(){
 
         menuDraw();   
     }
-  
+
+        musicClean(0);
         sfFont_destroy(textFont.font);
         sfText_destroy(textFont.text);
         sfText_destroy(textFont.text2);
         sfText_destroy(textFont.text3);
-
         sfSprite_destroy(scenery.sprite);
         sfTexture_destroy(scenery.texture);
-
-        musicCleanMenu();
-
         sfRenderWindow_destroy(win.window);
         
     return 0;
 }
 
 void menuDraw(){
-    sfRenderWindow_clear(win.window, sfColor_fromRGB(57, 161, 92));
+    sfRenderWindow_clear(win.window, colorTertiary);
     /**/
         sfRenderWindow_drawSprite(win.window, scenery.sprite, NULL); 
         sfRenderWindow_drawText(win.window, textFont.text, NULL);

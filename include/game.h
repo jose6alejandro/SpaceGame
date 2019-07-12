@@ -1,3 +1,6 @@
+#ifndef _GAME_H
+#define _GAME_H
+
 #include "player.h"
 #include "enemy.h"
 #include "scenery.h"
@@ -11,3 +14,5 @@ void gameRun();
 void gameEvents();
 void gameDraw();
 void gameGlobalBounds();
+
+#endif //_GAME_H

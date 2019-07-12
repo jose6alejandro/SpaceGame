@@ -1,5 +1,5 @@
 #include "../include/player.h"
-
+#include "../include/music.h"
 void playerLoad(){
 
 	player.texture = sfTexture_createFromFile("assets/nave.png", NULL);
@@ -10,8 +10,8 @@ void playerLoad(){
 	player.vectorPosition.y = 400;
 	sfSprite_setPosition(player.sprite, player.vectorPosition);
 	    
-	player.vectorScale.x = 0.4;
-	player.vectorScale.y = 0.4;
+	player.vectorScale.x = 0.3;
+	player.vectorScale.y = 0.3;
 	//sfSprite_setScale(player.sprite, vectorScale);
 	sfSprite_scale(player.sprite, player.vectorScale);
 
@@ -21,6 +21,7 @@ void playerLoad(){
 	
 	//sfSprite_setRotation(player.sprite, 10);
 	//sfSprite_setColor(player.sprite, sfColor_fromRGBA(250, 250, 250, 250));
+
 }
 
 void playerMove(int x, int y){
@@ -31,14 +32,21 @@ void playerMove(int x, int y){
 
 void playerhandleInput(){
 	if(sfKeyboard_isKeyPressed(sfKeyUp) || sfKeyboard_isKeyPressed(sfKeyW))
-        playerMove(0, -1);
+        playerMove(0, -2);
 
     if(sfKeyboard_isKeyPressed(sfKeyDown) || sfKeyboard_isKeyPressed(sfKeyS))
-        playerMove(0, 1);
+        playerMove(0, 2);
 
     if(sfKeyboard_isKeyPressed(sfKeyLeft) || sfKeyboard_isKeyPressed(sfKeyA))
-        playerMove(-1, 0);
+        playerMove(-2, 0);
 
     if(sfKeyboard_isKeyPressed(sfKeyRight) || sfKeyboard_isKeyPressed(sfKeyD))
-        playerMove(1, 0);
+        playerMove(2, 0);
+
+   	if(sfKeyboard_isKeyPressed(sfKeySpace)){
+		bulletLoad(player.sprite);
+		sfSound_setVolume(music.soundShort, 120);
+		sfSound_play(music.soundShort);
+	}
+
 }

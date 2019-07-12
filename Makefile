@@ -8,7 +8,7 @@ INC = -I/include
 EXE = ./space.exe
 
 $(EXE): obj/main.o obj/window.o obj/game.o obj/player.o obj/enemy.o\
-		obj/scenery.o obj/text.o obj/time.o obj/menu.o obj/music.o
+		obj/scenery.o obj/text.o obj/time.o obj/menu.o obj/music.o obj/bullet.o
 		
 	@$(CC) -o $@ $^ $(LIB)
 	@echo "\nEverything ok!\n"
@@ -32,7 +32,10 @@ obj/time.o: src/time.c
 obj/menu.o: src/menu.c 
 	@$(CC) $(LIB) $(INC) -c -o $@ $^	
 obj/music.o: src/music.c 
-	@$(CC) $(LIB) $(INC) -c -o $@ $^	
+	@$(CC) $(LIB) $(INC) -c -o $@ $^
+obj/bullet.o: src/bullet.c 
+	@$(CC) $(LIB) $(INC) -c -o $@ $^
+			
 clean:
 	@rm obj/*.o *.exe
 	@echo "\nclean and cool!\n"
