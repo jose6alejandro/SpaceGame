@@ -14,3 +14,6 @@ typedef struct{
 Player player;
 
 void playerLoad();
+void playerhandleInput();
+void playerMove(int, int);
+

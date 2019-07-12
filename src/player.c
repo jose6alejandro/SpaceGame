@@ -22,3 +22,23 @@ void playerLoad(){
 	//sfSprite_setRotation(player.sprite, 10);
 	//sfSprite_setColor(player.sprite, sfColor_fromRGBA(250, 250, 250, 250));
 }
+
+void playerMove(int x, int y){
+    player.vectorPosition.x = x; 
+    player.vectorPosition.y = y;    
+    sfSprite_move(player.sprite, (player.vectorPosition));
+}
+
+void playerhandleInput(){
+	if(sfKeyboard_isKeyPressed(sfKeyUp) || sfKeyboard_isKeyPressed(sfKeyW))
+        playerMove(0, -1);
+
+    if(sfKeyboard_isKeyPressed(sfKeyDown) || sfKeyboard_isKeyPressed(sfKeyS))
+        playerMove(0, 1);
+
+    if(sfKeyboard_isKeyPressed(sfKeyLeft) || sfKeyboard_isKeyPressed(sfKeyA))
+        playerMove(-1, 0);
+
+    if(sfKeyboard_isKeyPressed(sfKeyRight) || sfKeyboard_isKeyPressed(sfKeyD))
+        playerMove(1, 0);
+}

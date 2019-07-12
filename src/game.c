@@ -31,8 +31,11 @@ void gameRun(){
         timeUp.time = sfClock_getElapsedTime(timeUp.clock);
         sprintf(timeString,"%i",(int)sfTime_asSeconds(timeUp.time));
         sfText_setString(textFont.text2, timeString);
-        
+       
         gameEvents(win.event);
+        
+        playerhandleInput();          
+        
         gameDraw(win.window);
     }
 
@@ -60,54 +63,17 @@ void gameEvents(){
 
     while(sfRenderWindow_pollEvent(win.window, &win.event)){
         
-        switch (win.event.type){
+        if(win.event.type == sfEvtClosed){
 
-            case sfEvtClosed:
-               sfRenderWindow_close(win.window);
-            
-            case sfEvtKeyPressed:
-
-                switch(win.event.key.code){
-                    
-                    case sfKeyEscape:
-                        sfRenderWindow_close(win.window);
-                        break;
-
-                    case sfKeyUp:
-                    case sfKeyW:
-                        player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
-                        player.vectorPosition.y = sfSprite_getPosition(player.sprite).y - 3;
-                        sfSprite_setPosition(player.sprite, (player.vectorPosition));
-                        break;
-                    
-                    case sfKeyDown:
-                    case sfKeyS:
-                        player.vectorPosition.x = sfSprite_getPosition(player.sprite).x; 
-                        player.vectorPosition.y = sfSprite_getPosition(player.sprite).y + 3;
-                        sfSprite_setPosition(player.sprite, (player.vectorPosition));
-                        break;                                                    
-                    
-                    case sfKeyLeft:
-                    case sfKeyA:
-                        player.vectorPosition.x = sfSprite_getPosition(player.sprite).x - 3;
-                        player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
-                        sfSprite_setPosition(player.sprite, (player.vectorPosition));
-                        break; 
-
-                    case sfKeyRight:
-                    case sfKeyD:
-                        player.vectorPosition.x = sfSprite_getPosition(player.sprite).x + 3; 
-                        player.vectorPosition.y = sfSprite_getPosition(player.sprite).y;
-                        sfSprite_setPosition(player.sprite, (player.vectorPosition));
-                        break;
-
-                    default:
-                        //Nota: perfeccionar el movimiento
-                        break;
-                }
+            sfRenderWindow_close(win.window);
+        }  
+        if(win.event.key.code == sfKeyEscape){
+        
+            sfRenderWindow_close(win.window);
         }
     }
 }
+
 void gameDraw(){
 
     sfRenderWindow_clear(win.window, sfColor_fromRGB(57, 161, 92));
@@ -118,12 +84,6 @@ void gameDraw(){
         sfRenderWindow_drawSprite(win.window, player.sprite, NULL);
         sfRenderWindow_drawText(win.window, textFont.text2, NULL);
         
-        /*if((int)sfTime_asSeconds(timeUp.time) == 10){
-            //sfRenderWindow_drawText(win.window, textFont.text, NULL);
-            
-            //timeUp.time = sfClock_restart(timeUp.clock);
-        }*/
-
         gameGlobalBounds();
         
     /**/
@@ -153,3 +113,4 @@ void gameGlobalBounds(){
     }
     
 }
+

@@ -5,7 +5,7 @@ typedef struct{
 
     sfClock* clock;
     sfTime time;
-    int time2;
+    //int time2;
 
 }Time;
 
