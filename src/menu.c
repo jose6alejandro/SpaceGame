@@ -14,8 +14,7 @@ int menuExecute(){
     sfMusic_setLoop(music.soundLong, sfTrue);
     sfMusic_play(music.soundLong);
 
-    
-    textMenuLoad(win.window); 
+    textLoad(win.window, 2);
 
     sfRenderWindow_setFramerateLimit(win.window,FramerateLimit);
 
@@ -71,12 +70,16 @@ int menuExecute(){
     }
 
         musicClean(0);
+        
         sfFont_destroy(textFont.font);
         sfText_destroy(textFont.text);
+
         sfText_destroy(textFont.text2);
         sfText_destroy(textFont.text3);
+
         sfSprite_destroy(scenery.sprite);
         sfTexture_destroy(scenery.texture);
+
         sfRenderWindow_destroy(win.window);
         
     return 0;

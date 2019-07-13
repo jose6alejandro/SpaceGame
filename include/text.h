@@ -21,5 +21,9 @@ Text textFont;
 char timeString [3];
 
 void textMenuLoad(sfRenderWindow*);
-void textLoad(sfRenderWindow*, int);
+void textLoad(sfRenderWindow*, unsigned int);
+void textConfig(sfRenderWindow*, sfText*,
+				const char*, unsigned int,
+				unsigned int, sfColor, unsigned int);
+
 #endif //_TEXT_H

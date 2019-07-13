@@ -1,31 +1,17 @@
 #include "../include/text.h"
 
-void textLoad(sfRenderWindow* window, int flag){
+void textLoad(sfRenderWindow* window, unsigned int flag){
     textFont.font = fontArial;
     
     if(flag == 0){
-        textFont.text = sfText_create();
-        sfText_setString(textFont.text, "GAME OVER");
-        sfText_setFont(textFont.text, textFont.font);
-        textFont.vectorPosition.x = sfRenderWindow_getSize(window).x / 2 - 50;
-        textFont.vectorPosition.y = sfRenderWindow_getSize(window).y / 2 - 50;
-        sfText_setPosition(textFont.text, textFont.vectorPosition);
-       
-        textFont.vectorOrigin.x = (float)sfText_getGlobalBounds(textFont.text).width/2; 
-        textFont.vectorOrigin.y = (float)sfText_getGlobalBounds(textFont.text).height/2; 
-        sfText_setOrigin(textFont.text,textFont.vectorOrigin);
-
-        sfText_setCharacterSize(textFont.text, textSize - 40);
-        sfText_setColor(textFont.text, colorSecondary);        
+       textFont.text = sfText_create();
+        textConfig(window,textFont.text,"GAME OVER", 0, 0, colorSecondary,60);
     
-    }else{
+    }else if(flag == 1){
         textFont.text2 = sfText_create();
-        sfText_setCharacterSize(textFont.text2, textSize - 50);
-        sfText_setFont(textFont.text2, textFont.font);
-        textFont.vectorPosition.x = sfRenderWindow_getSize(window).x - 770;
-        textFont.vectorPosition.y = sfRenderWindow_getSize(window).y - 600;
-        sfText_setPosition(textFont.text2, textFont.vectorPosition);
-        sfText_setColor(textFont.text2, colorSecondary);
+        textConfig(window,textFont.text2,"0", 260, 280, colorSecondary, 40);
+    }else{
+        textMenuLoad(window);
     }
 
 }
@@ -33,34 +19,33 @@ void textLoad(sfRenderWindow* window, int flag){
 void textMenuLoad(sfRenderWindow* window){
 
         textFont.font = fontArial;
-        textFont.text = sfText_create();
-        sfText_setString(textFont.text, "Start");
-        sfText_setFont(textFont.text, textFont.font);
-        sfText_setCharacterSize(textFont.text, textSize - 20);
 
-        textFont.vectorPosition.x = sfRenderWindow_getSize(window).x / 2 - 80;
-        textFont.vectorPosition.y = sfRenderWindow_getSize(window).y / 2 - 100;
-        sfText_setPosition(textFont.text, textFont.vectorPosition);
-        sfText_setColor(textFont.text, colorPrimary);
+        textFont.text = sfText_create();
+        textConfig(window,textFont.text,"Start", 0, 70, colorPrimary, 80);
         
         textFont.text2 = sfText_create();
-        sfText_setString(textFont.text2, "Quit");
-        sfText_setFont(textFont.text2, textFont.font);
-        sfText_setCharacterSize(textFont.text2, textSize - 20);
-        
-        textFont.vectorPosition.x = sfRenderWindow_getSize(window).x / 2 - 60;
-        textFont.vectorPosition.y = sfRenderWindow_getSize(window).y / 2;
-        sfText_setPosition(textFont.text2, textFont.vectorPosition);
-        sfText_setColor(textFont.text2, colorSecondary);
+        textConfig(window,textFont.text2,"Quit", -20, -30, colorSecondary, 80);
 
         textFont.text3 = sfText_create();
-        sfText_setString(textFont.text3, "Space defense");
-        sfText_setFont(textFont.text3, textFont.font);
-        sfText_setCharacterSize(textFont.text3, textSize - 20);
+        textConfig(window,textFont.text3,"Space defense", 130, 210, colorPrimary, 80);
 
-        textFont.vectorPosition.x = sfRenderWindow_getSize(window).x / 2 - 210;
-        textFont.vectorPosition.y = sfRenderWindow_getSize(window).y - 550;
-        sfText_setPosition(textFont.text3, textFont.vectorPosition);
-        sfText_setColor(textFont.text3, colorPrimary);
+}
+
+void textConfig(sfRenderWindow* window, sfText* text,
+                const char* string, unsigned int  x,
+                unsigned int y, sfColor color,  unsigned int size){
+    
+    sfText_setString(text, string);
+    sfText_setCharacterSize(text, size);
+    sfText_setFont(text, textFont.font);
+
+    textFont.vectorPosition.x = sfRenderWindow_getSize(window).x / 2 - x;
+    textFont.vectorPosition.y = sfRenderWindow_getSize(window).y / 2 - y;
+    sfText_setPosition(text, textFont.vectorPosition);
+
+    textFont.vectorOrigin.x = (float)sfText_getGlobalBounds(textFont.text).width/2; 
+    textFont.vectorOrigin.y = (float)sfText_getGlobalBounds(textFont.text).height/2; 
+    sfText_setOrigin(text,textFont.vectorOrigin);
+    sfText_setColor(text, color);   
 }
 

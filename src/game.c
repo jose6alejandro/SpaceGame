@@ -116,7 +116,7 @@ void gameGlobalBounds(){
     
     if(sfFloatRect_intersects(&playerRect, &enemyRect, NULL)){
 
-        sfSprite_setColor(player.sprite, sfColor_fromRGBA(250, 250, 250, 70));
+        sfSprite_setColor(player.sprite, colorInvisible);
 
         sfRenderWindow_drawText(win.window, textFont.text, NULL);        
         //sfSleep(sfMilliseconds(800));                      
@@ -125,7 +125,7 @@ void gameGlobalBounds(){
          enemy.vectorPosition.x = sfSprite_getPosition(enemy.sprite).x; 
          enemy.vectorPosition.y = sfSprite_getPosition(enemy.sprite).y + 0.3;
          sfSprite_setPosition(enemy.sprite, (enemy.vectorPosition));
-         sfSprite_setColor(player.sprite, sfColor_fromRGBA(250, 250, 250, 250));
+         sfSprite_setColor(player.sprite, colorNone);
     }
     
 }
