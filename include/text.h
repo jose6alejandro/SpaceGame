@@ -10,23 +10,18 @@ typedef struct{
 
     sfFont* font;
     sfText* text;
-    sfText* text2;
-    sfText* text3;
-    sfText* text4;
-
     sfVector2f  vectorPosition,
                 vectorScale,
                 vectorOrigin;
 
 }Text; 
 
-Text textFont;
+Text textFont[7];
 char timeString [3];
 
-void textMenuLoad(sfRenderWindow*);
 void textLoad(sfRenderWindow*, unsigned int);
-void textConfig(sfRenderWindow*, sfText*,
-				const char*, unsigned int,
-				unsigned int, sfColor, unsigned int);
+void textConfig(unsigned int, sfRenderWindow*, sfText*,
+                const char*, unsigned int,
+                unsigned int, sfColor, unsigned int);
 
 #endif //_TEXT_H

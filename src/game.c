@@ -1,6 +1,7 @@
 #include "../include/game.h"
-
-int gameStart(){
+#include "../include/menu.h"
+#include <stdio.h>
+unsigned int gameStart(){
    
     if (!(windowLoad(windowConfig,windowName)))
         return 1;
@@ -12,10 +13,14 @@ int gameStart(){
     enemyLoad();
 
     playerLoad();
-
-    textFont.font = fontArial;
     
-    for (int i = 0; i < 4; ++i){ textLoad(win.window, i); }
+    for (int i = 0; i < 6; ++i)
+    {
+        textFont[i].font = fontArial;
+    }
+    
+    textLoad(win.window, 0);
+    textLoad(win.window, 1);
 
     musicLoad(1);
 
@@ -26,69 +31,81 @@ int gameStart(){
     return 0;
 }
 
-void gameRun(){
-
-    
+unsigned int gameRun(){
 
     while (sfRenderWindow_isOpen(win.window)){
         
-        timeUp.time = sfClock_getElapsedTime(timeUp.clock);
-        
-        /*if(bullet.clock != NULL){
-            bullet.time = sfClock_getElapsedTime(bullet.clock);
-        }*/
+        int flag = gameGlobalBounds();
+
+        if (!flag == 1){
+            timeUp.time = sfClock_getElapsedTime(timeUp.clock);
+            playerhandleInput();           
+        }  
         
         sprintf(timeString,"%i",(int)sfTime_asSeconds(timeUp.time));
-        
         char textChar[tam] = "Time ";
-        sfText_setString(textFont.text2, strcat(textChar, timeString));
+        sfText_setString(textFont[2].text, strcat(textChar, timeString));
        
-        gameEvents(win.event);
+        int flag2 = gameEvents(win.event);
         
-        playerhandleInput();          
-       
-        gameDraw(win.window);
+        if(flag == 1 && flag2 == 1){
+            sfRenderWindow_close(win.window);
+            musicClean(1);
+            return menuExecute();
+        }
+        if(flag2 == 2){
+            sfRenderWindow_close(win.window);
+            musicClean(1);
+            return 0;
+        }
+
+        gameDraw();
     }
 
-    sfSprite_destroy(player.sprite);
-    sfTexture_destroy(player.texture);
-    
-    if((bullet.sprite != NULL)  && (bullet.texture != NULL)){
+
+    if((bullet.sprite != NULL)  || (bullet.texture != NULL)){
         sfSprite_destroy(bullet.sprite);
         sfTexture_destroy(bullet.texture);       
     }
 
-    sfSprite_destroy(enemy.sprite);
+    sfSprite_destroy(player.sprite);
+    sfTexture_destroy(player.texture);
+
+    if((enemy.sprite != NULL)){
+        sfSprite_destroy(enemy.sprite);
+    }
+
     sfTexture_destroy(enemy.texture);
+    sfSprite_destroy(bullet.sprite);
+    sfTexture_destroy(bullet.texture);
 
     sfSprite_destroy(scenery.sprite);
     sfTexture_destroy(scenery.texture);
     
-    /*sfFont_destroy(textFont.font);
-    sfText_destroy(textFont.text);*/
+    /*sfFont_destroy(textFont[i].font);
+    sfText_destroy(textFont[i].text);*/
 
-    sfClock_destroy(bullet.clock);
     sfClock_destroy(timeUp.clock);
     
     musicClean(1);
+    sfRenderWindow_destroy(win.window);
 
-    sfRenderWindow_destroy(win.window);     
+    return 0;     
 }
 
 
-void gameEvents(){
+unsigned int gameEvents(){
 
     while(sfRenderWindow_pollEvent(win.window, &win.event)){
         
         if(win.event.type == sfEvtClosed){
-
-            sfRenderWindow_close(win.window);
+            return 2;
         }  
         if(win.event.key.code == sfKeyEscape){
-        
-            sfRenderWindow_close(win.window);
+            return 1;
         }
     }
+    return 0;
 }
 
 void gameDraw(){
@@ -97,12 +114,19 @@ void gameDraw(){
     /**/
 
         sfRenderWindow_drawSprite(win.window, scenery.sprite, NULL); 
-        sfRenderWindow_drawSprite(win.window, enemy.sprite, NULL); 
-        sfRenderWindow_drawSprite(win.window, player.sprite, NULL);
-        sfRenderWindow_drawText(win.window, textFont.text2, NULL);
-        sfRenderWindow_drawText(win.window, textFont.text3, NULL);
-        sfRenderWindow_drawText(win.window, textFont.text4, NULL);
+      
+        if(enemy.sprite != NULL){
+           sfRenderWindow_drawSprite(win.window, enemy.sprite, NULL); 
+
+        }
         
+        sfRenderWindow_drawSprite(win.window, player.sprite, NULL);
+
+        sfRenderWindow_drawText(win.window, textFont[2].text, NULL);
+        sfRenderWindow_drawText(win.window, textFont[3].text, NULL);
+        sfRenderWindow_drawText(win.window, textFont[4].text, NULL);
+        sfRenderWindow_drawText(win.window, textFont[5].text, NULL); 
+
         if((bullet.sprite != NULL) && (bullet.texture != NULL)){
             //bulletUpdate();
             sfRenderWindow_drawSprite(win.window, bullet.sprite, NULL);           
@@ -114,15 +138,20 @@ void gameDraw(){
         if(flag == 1){
             sfSprite_setColor(player.sprite, colorInvisible);
             //sfTime time2 = sfClock_restart(timeUp.clock);
-            sfRenderWindow_drawText(win.window, textFont.text, NULL);        
-            //sfSleep(sfMilliseconds(800));             
+            sfRenderWindow_drawText(win.window, textFont[0].text, NULL);     
+            sfRenderWindow_drawText(win.window, textFont[1].text, NULL);    
+            //sfSleep(sfMilliseconds(800));
+
         }else{
-         sfSprite_setRotation(enemy.sprite, sfSprite_getRotation(enemy.sprite) + 0.5);
-         enemy.vectorPosition.x = sfSprite_getPosition(enemy.sprite).x; 
-         enemy.vectorPosition.y = sfSprite_getPosition(enemy.sprite).y + 0.3;
-         sfSprite_setPosition(enemy.sprite, (enemy.vectorPosition));
-         sfSprite_setColor(player.sprite, colorNone);
+            if((enemy.sprite != NULL)){
+                sfSprite_setRotation(enemy.sprite, sfSprite_getRotation(enemy.sprite) + 0.5);
+                enemy.vectorPosition.x = sfSprite_getPosition(enemy.sprite).x; 
+                enemy.vectorPosition.y = sfSprite_getPosition(enemy.sprite).y + 0.3;
+                sfSprite_setPosition(enemy.sprite, (enemy.vectorPosition));
+                sfSprite_setColor(player.sprite, colorNone);
+            }
         }
+
      
         
     /**/
@@ -132,11 +161,24 @@ void gameDraw(){
 unsigned int gameGlobalBounds(){
     
     sfFloatRect playerRect = sfSprite_getGlobalBounds(player.sprite);
-    sfFloatRect enemyRect = sfSprite_getGlobalBounds(enemy.sprite);
+    if(enemy.sprite != NULL){
+        sfFloatRect enemyRect = sfSprite_getGlobalBounds(enemy.sprite);
     
-    if(sfFloatRect_intersects(&playerRect, &enemyRect, NULL))
-        return 1;    
+   
+        if((bullet.sprite != NULL) || (bullet.texture != NULL)){
+            sfFloatRect bulletRect = sfSprite_getGlobalBounds(bullet.sprite);
+            
+            if(sfFloatRect_intersects(&bulletRect, &enemyRect, NULL)){
+              enemy.sprite = NULL; 
+              //enemy.texture = NULL; 
+            }    
+        }
 
+        if(sfFloatRect_intersects(&playerRect, &enemyRect, NULL)){
+            return 1;    
+        }
+    }
+   
     return 0;
     
 }

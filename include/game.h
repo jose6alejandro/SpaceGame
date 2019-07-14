@@ -9,10 +9,11 @@
 #include "window.h"
 #include "music.h"
 
-int  gameStart();
-void gameRun();
-void gameEvents();
 void gameDraw();
+
+unsigned int gameRun();
+unsigned int gameStart();
+unsigned int gameEvents();
 unsigned int gameGlobalBounds();
 
 #endif //_GAME_H
