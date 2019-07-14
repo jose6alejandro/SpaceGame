@@ -7,8 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-
-#define tam 15
+#include "definition.h"
 
 typedef struct{
 

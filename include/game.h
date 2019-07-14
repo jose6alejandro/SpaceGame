@@ -13,6 +13,6 @@ int  gameStart();
 void gameRun();
 void gameEvents();
 void gameDraw();
-void gameGlobalBounds();
+unsigned int gameGlobalBounds();
 
 #endif //_GAME_H

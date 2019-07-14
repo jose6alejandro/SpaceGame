@@ -14,8 +14,8 @@ int gameStart(){
     playerLoad();
 
     textFont.font = fontArial;
-    textLoad(win.window, 0);
-    textLoad(win.window, 1);
+    
+    for (int i = 0; i < 4; ++i){ textLoad(win.window, i); }
 
     musicLoad(1);
 
@@ -28,6 +28,8 @@ int gameStart(){
 
 void gameRun(){
 
+    
+
     while (sfRenderWindow_isOpen(win.window)){
         
         timeUp.time = sfClock_getElapsedTime(timeUp.clock);
@@ -37,7 +39,9 @@ void gameRun(){
         }*/
         
         sprintf(timeString,"%i",(int)sfTime_asSeconds(timeUp.time));
-        sfText_setString(textFont.text2, timeString);
+        
+        char textChar[tam] = "Time ";
+        sfText_setString(textFont.text2, strcat(textChar, timeString));
        
         gameEvents(win.event);
         
@@ -60,8 +64,8 @@ void gameRun(){
     sfSprite_destroy(scenery.sprite);
     sfTexture_destroy(scenery.texture);
     
-    sfFont_destroy(textFont.font);
-    sfText_destroy(textFont.text);
+    /*sfFont_destroy(textFont.font);
+    sfText_destroy(textFont.text);*/
 
     sfClock_destroy(bullet.clock);
     sfClock_destroy(timeUp.clock);
@@ -96,6 +100,8 @@ void gameDraw(){
         sfRenderWindow_drawSprite(win.window, enemy.sprite, NULL); 
         sfRenderWindow_drawSprite(win.window, player.sprite, NULL);
         sfRenderWindow_drawText(win.window, textFont.text2, NULL);
+        sfRenderWindow_drawText(win.window, textFont.text3, NULL);
+        sfRenderWindow_drawText(win.window, textFont.text4, NULL);
         
         if((bullet.sprite != NULL) && (bullet.texture != NULL)){
             //bulletUpdate();
@@ -103,30 +109,35 @@ void gameDraw(){
             bulletMove(0,- 40);
         }
         
-        gameGlobalBounds();
-        
-    /**/
-    sfRenderWindow_display(win.window);    
-}
+        unsigned int flag = gameGlobalBounds();
 
-void gameGlobalBounds(){
-    
-    sfFloatRect playerRect = sfSprite_getGlobalBounds(player.sprite);
-    sfFloatRect enemyRect = sfSprite_getGlobalBounds(enemy.sprite);
-    
-    if(sfFloatRect_intersects(&playerRect, &enemyRect, NULL)){
-
-        sfSprite_setColor(player.sprite, colorInvisible);
-
-        sfRenderWindow_drawText(win.window, textFont.text, NULL);        
-        //sfSleep(sfMilliseconds(800));                      
-    }else{
+        if(flag == 1){
+            sfSprite_setColor(player.sprite, colorInvisible);
+            //sfTime time2 = sfClock_restart(timeUp.clock);
+            sfRenderWindow_drawText(win.window, textFont.text, NULL);        
+            //sfSleep(sfMilliseconds(800));             
+        }else{
          sfSprite_setRotation(enemy.sprite, sfSprite_getRotation(enemy.sprite) + 0.5);
          enemy.vectorPosition.x = sfSprite_getPosition(enemy.sprite).x; 
          enemy.vectorPosition.y = sfSprite_getPosition(enemy.sprite).y + 0.3;
          sfSprite_setPosition(enemy.sprite, (enemy.vectorPosition));
          sfSprite_setColor(player.sprite, colorNone);
-    }
+        }
+     
+        
+    /**/
+    sfRenderWindow_display(win.window);    
+}
+
+unsigned int gameGlobalBounds(){
+    
+    sfFloatRect playerRect = sfSprite_getGlobalBounds(player.sprite);
+    sfFloatRect enemyRect = sfSprite_getGlobalBounds(enemy.sprite);
+    
+    if(sfFloatRect_intersects(&playerRect, &enemyRect, NULL))
+        return 1;    
+
+    return 0;
     
 }
 

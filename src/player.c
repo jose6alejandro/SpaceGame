@@ -6,8 +6,8 @@ void playerLoad(){
 	player.sprite = sfSprite_create();
 	sfSprite_setTexture(player.sprite, player.texture, sfTrue);
 
-	player.vectorPosition.x = 450;
-	player.vectorPosition.y = 400;
+	player.vectorPosition.x = 400;
+	player.vectorPosition.y = 500;
 	sfSprite_setPosition(player.sprite, player.vectorPosition);
 	    
 	player.vectorScale.x = 0.3;

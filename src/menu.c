@@ -14,7 +14,7 @@ int menuExecute(){
     sfMusic_setLoop(music.soundLong, sfTrue);
     sfMusic_play(music.soundLong);
 
-    textLoad(win.window, 2);
+    textLoad(win.window, 4);
 
     sfRenderWindow_setFramerateLimit(win.window,FramerateLimit);
 

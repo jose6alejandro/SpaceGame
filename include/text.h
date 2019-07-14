@@ -3,6 +3,7 @@
 
 #include <SFML/Audio.h>
 #include <SFML/Graphics.h>
+#include <string.h>
 #include "definition.h"
 
 typedef struct{
@@ -11,10 +12,12 @@ typedef struct{
     sfText* text;
     sfText* text2;
     sfText* text3;
-    
+    sfText* text4;
+
     sfVector2f  vectorPosition,
                 vectorScale,
                 vectorOrigin;
+
 }Text; 
 
 Text textFont;

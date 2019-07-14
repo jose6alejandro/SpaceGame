@@ -11,5 +11,6 @@
 #define colorNone  		sfColor_fromRGBA(250, 250, 250, 250)
 #define colorInvisible	sfColor_fromRGBA(250, 250, 250, 60)
 #define fontArial       sfFont_createFromFile("assets/arial.ttf")
+#define tam 15
 
 #endif //_DEFINE_H
