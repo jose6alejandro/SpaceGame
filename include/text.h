@@ -18,6 +18,7 @@ typedef struct{
 
 Text textFont[7];
 char timeString [3];
+char timeString2 [3];
 
 void textLoad(sfRenderWindow*, unsigned int);
 void textConfig(unsigned int, sfRenderWindow*, sfText*,

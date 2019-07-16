@@ -8,7 +8,7 @@ void textLoad(sfRenderWindow* window, unsigned int flag){
         textConfig(0, window,textFont[0].text,"GAME OVER", 0, 0, colorSecondary,60);
        
         textFont[1].text = sfText_create();
-        textConfig(1, window,textFont[1].text,"Press [Esc]", -310, -220, colorSecondary, 40);
+        textConfig(1, window,textFont[1].text,"Press [Esc]", -270, -220, colorSecondary, 40);
    
     }else if(flag == 1){
         textFont[2].text = sfText_create();  
@@ -18,10 +18,10 @@ void textLoad(sfRenderWindow* window, unsigned int flag){
         textConfig(3 ,window,textFont[3].text,"Level 1", -300, 280, colorSecondary, 40);
         
         textFont[4].text = sfText_create();  
-        textConfig(4, window,textFont[4].text,"Nave x 1", 290, 280, colorSecondary, 40);    
+        textConfig(4, window,textFont[4].text,"Nave x 3"/*x 3*/, 290, 280, colorSecondary, 40);    
 
         textFont[5].text = sfText_create();
-        textConfig(5, window,textFont[5].text,"Score 0", 90, 280, colorSecondary, 40);
+        textConfig(5, window,textFont[5].text,"Score 0"/*0*/, 90, 280, colorSecondary, 40);
     
     }else{
         textFont[0].text = sfText_create();
