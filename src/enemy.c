@@ -29,21 +29,4 @@ void enemyDestroy(int i){
 	}
 
 }
-void enemyConfig(unsigned int  x, unsigned int y, 
-					float  scaleX, float scaleY, sfColor color){
-	
-	/*enemy.vectorPosition.x = x;
-	enemy.vectorPosition.y = y;
-	sfSprite_setPosition(enemy.sprite, enemy.vectorPosition);
-		
-	enemy.vectorScale.x = scaleX;
-	enemy.vectorScale.y = scaleY;
-	sfSprite_scale(enemy.sprite, enemy.vectorScale);
-			
-	enemy.vectorOrigin.x = sfTexture_getSize(enemy.texture).x/2; 
-	enemy.vectorOrigin.y = sfTexture_getSize(enemy.texture).y/2;
-	sfSprite_setOrigin(enemy.sprite, enemy.vectorOrigin);
 
-	sfSprite_setColor(enemy.sprite, color);*/
-
-}

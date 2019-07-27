@@ -24,6 +24,5 @@ Enemy enemy[30];
 
 void enemyLoad(int);
 void enemyDestroy(int);
-void enemyConfig(unsigned int  x, unsigned int y, 
-					float  scaleX, float scaleY, sfColor color);
+
 #endif //_ENEMY_H
