@@ -7,18 +7,16 @@ int menuExecute(){
 
     unsigned int flag = 0;
 
+    for (int i = 0; i < 6; ++i)
+        textFont[i].font = fontArial;
+
+    textLoad(2);
+
     sceneryLoad(0);
 
     musicLoad(0);
-    for (int i = 0; i < 6; ++i)
-    {
-        textFont[i].font = fontArial;
-    }
-    
     sfMusic_setLoop(music.soundLong, sfTrue);
     sfMusic_play(music.soundLong);
-
-    textLoad(win.window, 2);
 
     sfRenderWindow_setFramerateLimit(win.window,FramerateLimit);
 
@@ -37,8 +35,8 @@ int menuExecute(){
                                 
                         case sfKeyEscape:
                             sfRenderWindow_close(win.window);
-                                    
                             break;
+
                         case sfKeyUp:
                             sfSound_play(music.soundShort);
                             sfText_setColor(textFont[0].text, colorPrimary);
@@ -61,7 +59,6 @@ int menuExecute(){
                             }
                             else{
                                 sfRenderWindow_close(win.window);
-                                //sfMusic_stop(music.soundLong);
                                 musicClean(0);
                                 return gameStart();
                             }
@@ -74,12 +71,6 @@ int menuExecute(){
     }
 
         musicClean(0);
-        
-        /*sfFont_destroy(textFont.font);
-        sfText_destroy(textFont[0].text);
-
-        sfText_destroy(textFont[2].text);
-        sfText_destroy(textFont[3].text);*/
 
         sfSprite_destroy(scenery.sprite);
         sfTexture_destroy(scenery.texture);
@@ -92,10 +83,13 @@ int menuExecute(){
 void menuDraw(){
     sfRenderWindow_clear(win.window, colorTertiary);
     /**/
-        sfRenderWindow_drawSprite(win.window, scenery.sprite, NULL); 
-        sfRenderWindow_drawText(win.window, textFont[0].text, NULL);
-        sfRenderWindow_drawText(win.window, textFont[2].text, NULL);
-        sfRenderWindow_drawText(win.window, textFont[3].text, NULL);
+        sfRenderWindow_drawSprite(win.window, scenery.sprite, NULL);
+        
+        for (int i = 0; i < 4; ++i){
+             if(i != 1)
+                sfRenderWindow_drawText(win.window, textFont[i].text, NULL);       
+        } 
+
     /**/
     sfRenderWindow_display(win.window);    
 }

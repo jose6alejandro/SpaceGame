@@ -3,6 +3,7 @@
 
 #include <SFML/Audio.h>
 #include <SFML/Graphics.h>
+#include "definition.h"
 
 typedef struct{
 
@@ -13,19 +14,14 @@ typedef struct{
                 vectorScale,
                 vectorOrigin;
 
-    sfVector2f  velocity,
-    			accelerate;  
-
-    sfClock*    clock;
-    sfTime      time;
-    unsigned int time2;
-
 }Bullet;
 
 Bullet bullet;
 
-void bulletMove(int x, int y);
 void bulletLoad(sfSprite*);
-//void bulletUpdate(sfSprite*);
+void bulletConfig(unsigned int  x, unsigned int y, 
+                    float  scaleX, float scaleY, sfColor color);
+void bulletMove(int x, int y);
+
 
 #endif //_BULLET_H

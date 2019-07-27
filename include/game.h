@@ -13,7 +13,7 @@ typedef struct{
 	unsigned int score;
 	unsigned int life;
 	unsigned int level;
-
+	unsigned int time2;
 	sfClock* clock;
     sfTime time;
 
@@ -23,6 +23,8 @@ Attribute attribute;
 
 void gameDraw();
 void gameAttributeLoad();
+void gameAttributeView(char *, int, int);
+void gameClose();
 
 unsigned int gameRun();
 unsigned int gameStart();

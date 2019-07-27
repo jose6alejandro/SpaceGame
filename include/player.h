@@ -4,6 +4,7 @@
 #include <SFML/Audio.h>
 #include <SFML/Graphics.h>
 #include "bullet.h"
+#include "definition.h"
 
 typedef struct{
 
@@ -19,7 +20,10 @@ typedef struct{
 Player player;
 
 void playerLoad();
-void playerhandleInput();
+void playerConfig(unsigned int  x, unsigned int y, float  scaleX, 
+					float scaleY, sfColor color);
 void playerMove(int, int);
+void playerhandleInput();
+
 
 #endif //_PLAYER_H

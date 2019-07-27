@@ -17,11 +17,13 @@ typedef struct{
     sfVector2f  vectorPosition,
                 vectorScale,
                 vectorOrigin;
+
 }Enemy;
 
-Enemy enemy;
+Enemy enemy[30];
 
-int enemyNum();
-void enemyLoad();
-
+void enemyLoad(int);
+void enemyDestroy(int);
+void enemyConfig(unsigned int  x, unsigned int y, 
+					float  scaleX, float scaleY, sfColor color);
 #endif //_ENEMY_H
