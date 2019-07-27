@@ -111,7 +111,7 @@ void gameDraw(){
         sfRenderWindow_drawSprite(win.window, scenery.sprite, NULL); 
         sfRenderWindow_drawSprite(win.window, player.sprite, NULL);
         
-        if((bullet.sprite != NULL)){
+        if((bullet.sprite != NULL) && (bullet.texture != NULL)){
             sfRenderWindow_drawSprite(win.window, bullet.sprite, NULL);           
             bulletMove(0,- 40);
         }
@@ -160,12 +160,13 @@ unsigned int gameGlobalBounds(){
             enemyRect[i] = sfSprite_getGlobalBounds(enemy[i].sprite);             
         }
     }   
-        if((bullet.sprite != NULL) || (bullet.texture != NULL)){
+        if((bullet.sprite != NULL) && (bullet.texture != NULL)){
             sfFloatRect bulletRect = sfSprite_getGlobalBounds(bullet.sprite);
             
             for (int i = 0; i < tam * 2; ++i){
                 if(sfFloatRect_intersects(&bulletRect, &enemyRect[i], NULL)){
                     enemy[i].sprite = NULL;
+                    bullet.sprite = NULL;
                     attribute.score += 50;
                     gameAttributeView("Score ", attribute.score, 5);
 
